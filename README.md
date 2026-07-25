@@ -27,5 +27,5 @@ A desktop focus timer built with Python and Tkinter, featuring a borderless user
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/Ren0506/mini-focus-timer.git](https://github.com/Ren0506/mini-focus-timer.git)
+   git clone [https://github.com/SeniorBugEngineer/mini-focus-timer.git](https://github.com/SeniorBugEngineer/mini-focus-timer.git)
    cd mini-focus-timer
