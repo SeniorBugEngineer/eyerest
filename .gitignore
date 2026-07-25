@@ -1,0 +1,12 @@
+# Python 暫存檔
+__pycache__/
+*.pyc
+
+# PyInstaller 打包產生的暫存與輸出檔
+build/
+dist/
+*.spec
+
+# IDE 設定檔
+.vscode/
+.idea/
