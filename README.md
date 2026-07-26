@@ -38,19 +38,19 @@ A desktop focus timer built with Python and Tkinter, featuring a borderless user
 
 Install Required Dependencies:
 Install pywin32 for Windows system lock/sleep auto-pause event integration:
-```bash
-pip install pywin32
+   ```bash
+   pip install pywin32
 
 Build Executable (.exe)
 If you'd like to package the app into a standalone executable (.exe) for convenient everyday use or autostart setup:
 Install PyInstaller:
- ```bash
-pip install pyinstaller
+    ```bash
+   pip install pyinstaller
 
 Build the Executable:
 Run the following command to build a single executable file without opening a command prompt window:
- ```bash
-python -m PyInstaller --noconsole --onefile timer.py
+    ```bash
+   python -m PyInstaller --noconsole --onefile timer.py
 
 Locate Your Executable:
 Once compilation completes, the generated timer.exe will be saved inside the newly created dist/ directory.
