@@ -36,7 +36,7 @@ A lightweight desktop eye-rest reminder built with Python and Tkinter, designed 
 You can download the latest Windows executable from:
 
 Releases:
-https://github.com/SeniorBugEngineer/mini-focus-timer/releases
+https://github.com/SeniorBugEngineer/eyerest/releases
 
 No Python installation required.
 
@@ -45,8 +45,8 @@ No Python installation required.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/SeniorBugEngineer/mini-focus-timer.git
-cd mini-focus-timer
+git clone https://github.com/SeniorBugEngineer/eyerest.git
+cd eyerest
 ```
 
 ### 2. Install Required Dependencies
