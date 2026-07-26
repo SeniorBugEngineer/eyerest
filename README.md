@@ -1,6 +1,6 @@
 # Borderless Focus Timer
 
-A desktop focus timer built with Python and Tkinter, featuring a borderless user interface, floating window capabilities, and minimal background footprints.
+A lightweight desktop eye-rest reminder built with Python and Tkinter, designed to help long-term computer users take regular breaks without interrupting their workflow.
 
 ## Features
 
