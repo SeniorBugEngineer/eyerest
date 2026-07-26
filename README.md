@@ -37,8 +37,9 @@ A desktop focus timer built with Python and Tkinter, featuring a borderless user
    cd mini-focus-timer
 
 Install Required Dependencies:
-
-Install pywin32 for Windows system lock/sleep auto-pause event integration:pip install pywin32
+Install pywin32 for Windows system lock/sleep auto-pause event integration:
+```bash
+pip install pywin32
 
 Build Executable (.exe)
 If you'd like to package the app into a standalone executable (.exe) for convenient everyday use or autostart setup:
