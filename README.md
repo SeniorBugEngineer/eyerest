@@ -1,4 +1,4 @@
-# Borderless Focus Timer
+# EyeRest
 
 A lightweight desktop eye-rest reminder built with Python and Tkinter, designed to help long-term computer users take regular breaks without interrupting their workflow.
 
