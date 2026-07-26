@@ -43,10 +43,14 @@ pip install pywin32
 
 Build Executable (.exe)
 If you'd like to package the app into a standalone executable (.exe) for convenient everyday use or autostart setup:
-Install PyInstaller:pip install pyinstaller
+Install PyInstaller:
+ ```bash
+pip install pyinstaller
 
 Build the Executable:
-Run the following command to build a single executable file without opening a command prompt window:python -m PyInstaller --noconsole --onefile timer.py
+Run the following command to build a single executable file without opening a command prompt window:
+ ```bash
+python -m PyInstaller --noconsole --onefile timer.py
 
 Locate Your Executable:
 Once compilation completes, the generated timer.exe will be saved inside the newly created dist/ directory.
