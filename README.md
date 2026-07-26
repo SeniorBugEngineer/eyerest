@@ -34,6 +34,15 @@ A desktop focus timer built with Python and Tkinter, featuring a borderless user
 
 ## Installation & Setup
 
+## Download
+
+You can download the latest Windows executable from:
+
+Releases:
+https://github.com/SeniorBugEngineer/mini-focus-timer/releases
+
+No Python installation required.
+
 ### 1. Clone the Repository
 
 ```bash
