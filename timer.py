@@ -61,7 +61,7 @@ class BorderlessTimer:
         self.is_flashing = False
         self.flash_state = False
 
-        # ✨ 動畫相關變數
+        #  動畫相關變數
         self.zoom_anim_id = None
         self.BASE_FONT_SIZE = 34
         self.MAX_FONT_SIZE = 48
@@ -70,7 +70,7 @@ class BorderlessTimer:
         self.MINI_BASE_FONT_SIZE = 11
         self.MINI_MAX_FONT_SIZE = 15  # 放大字體
 
-        # --- 🎨 主題配色設定 ---
+        # ---  主題配色設定 ---
         self.themes = {
             "catppuccin": {
                 "name": "🌌 藍紫極光 (Catppuccin)",
@@ -185,7 +185,7 @@ class BorderlessTimer:
         )
         self.label_timer.pack(pady=(4, 0))
 
-        # --- 🟢 提示區域 ---
+        # ---  提示區域 ---
         self.frame_notice = tk.Frame(root, height=24)
         self.frame_notice.pack(fill=tk.X, pady=(1, 1))
         self.frame_notice.pack_propagate(False)
@@ -237,7 +237,7 @@ class BorderlessTimer:
         # 啟動時直接進入小圖示懸浮模式
         self.hide_window()
 
-    # --- 🎬 數字放大與迷你視窗脈衝動畫 ---
+    # ---  數字放大與迷你視窗脈衝動畫 ---
     def trigger_zoom_animation(self):
         if self.zoom_anim_id:
             self.root.after_cancel(self.zoom_anim_id)
@@ -309,13 +309,13 @@ class BorderlessTimer:
             cur_y = self.mini_window.winfo_y()
             self.mini_window.geometry(f"65x28+{cur_x}+{cur_y}")
 
-    # --- 🧪 測試用：直接跳到最後 10 秒看動畫 ---
+    # ---  測試用：直接跳到最後 10 秒看動畫 ---
     def test_countdown_anim(self):
         self.reset_timer()
         self.time_left = 10
         self.toggle_timer()
 
-    # --- 💧 透明度選單與控制邏輯 ---
+    # ---  透明度選單與控制邏輯 ---
     def build_alpha_radio_menu(self, target_menu):
         options = [
             ("100% (完全不透明)", 1.0),
@@ -348,7 +348,7 @@ class BorderlessTimer:
         if self.mini_window:
             self.mini_window.attributes('-alpha', val)
 
-    # --- 🛡️ 螢幕邊界檢查邏輯 ---
+    # ---  螢幕邊界檢查邏輯 ---
     def clamp_to_screen(self, window, x, y, width, height):
         screen_width = window.winfo_screenwidth()
         screen_height = window.winfo_screenheight()
@@ -403,7 +403,7 @@ class BorderlessTimer:
         else:
             self.restore_window()
 
-    # --- ⏸️ 智慧自動暫停與恢復：Windows 系統事件監聽 ---
+    # ---  智慧自動暫停與恢復：Windows 系統事件監聽 ---
     def setup_system_event_listener(self):
         if not WIN32_AVAILABLE:
             return
@@ -485,7 +485,7 @@ class BorderlessTimer:
         self.frame_notice_inner.pack_forget()
         self.apply_theme()
 
-    # --- 🎨 主題選單與套用 ---
+    # ---  主題選單與套用 ---
     def build_theme_radio_menu(self, target_menu):
         for key, info in self.themes.items():
             target_menu.add_radiobutton(
@@ -658,7 +658,7 @@ class BorderlessTimer:
             if self.btn_restore and self.is_running:
                 self.btn_restore.config(text=time_str)
 
-            # 🎬 當進入最後 10 秒時，觸發放大脈衝與視窗背景閃爍效果
+            #  當進入最後 10 秒時，觸發放大脈衝與視窗背景閃爍效果
             if self.time_left <= 10:
                 self.trigger_zoom_animation()
 
