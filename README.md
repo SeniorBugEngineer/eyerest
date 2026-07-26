@@ -7,7 +7,7 @@ A lightweight desktop eye-rest reminder built with Python and Tkinter, designed 
 - **Borderless Interface**: Utilizes system window override settings (`overrideredirect`) to remove standard OS title bars, delivering a clean and non-intrusive UI widget.
 - **Floating Mini Mode**: Supports collapsing the main window into a lightweight floating icon in the lower-right corner for background operation without cluttering the workspace.
 - **Dynamic Animation & Alerts**: Features visual text zooming and background color pulse alerts during the final 10 seconds of a countdown in mini mode.
-- **Smart Pause on Lock/Sleep**: Integrates native Windows system event listeners (`pywin32`) to automatically pause the timer when your PC locks or enters sleep mode.
+- **Smart Pause Handling**: Automatically pauses the timer when your PC locks or enters sleep mode, displays the paused duration, and asks whether to reset after extended pauses.
 - **Drag-and-Drop Navigation**: Allows both the main window and mini window to be freely moved across the desktop.
 - **Accurate Event Handling**: Distinguishes between click and drag actions to prevent accidental UI toggles.
 - **Pomodoro Workflow Cycle**: Includes a 60-minute focus session followed by a 5-minute break.
