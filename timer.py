@@ -53,6 +53,12 @@ class BorderlessTimer:
         self.is_running = False
         self.timer_id = None
 
+        #  暫停過久提醒機制（5 分鐘 = 300,000 ms）
+        self.PAUSE_LIMIT_MS = 5 * 60 * 1000
+        self.pause_timer_id = None
+        self.pause_elapsed_sec = 0       #  紀錄已暫停秒數
+        self.pause_count_id = None       #  每秒更新暫停時間的計時器
+
         # 智慧自動暫停標記
         self.auto_paused_by_system = False
 
@@ -236,6 +242,63 @@ class BorderlessTimer:
         
         # 啟動時直接進入小圖示懸浮模式
         self.hide_window()
+
+    # ---  暫停計時器與動態累計時間邏輯 ---
+    def start_pause_timer(self):
+        """啟動暫停計時，並每秒更新顯示已暫停的時間"""
+        self.cancel_pause_timer()
+        self.pause_elapsed_sec = 0
+        self.pause_timer_id = self.root.after(self.PAUSE_LIMIT_MS, self.on_pause_timeout)
+        self.update_pause_counter()
+
+    def update_pause_counter(self):
+        """每秒更新一次已暫停的累計時間顯示"""
+        if not self.is_running and self.pause_timer_id:
+            mins, secs = divmod(self.pause_elapsed_sec, 60)
+            pause_str = f"⏸️ 已暫停 ({mins:02d}:{secs:02d})"
+            self.label_status.config(text=pause_str)
+            
+            # 若處於迷你懸浮視窗，同步顯示暫停時間
+            if self.mini_window and self.btn_restore:
+                self.update_mini_display()
+
+            self.pause_elapsed_sec += 1
+            self.pause_count_id = self.root.after(1000, self.update_pause_counter)
+
+    def cancel_pause_timer(self):
+        """取消暫停計時與累計顯示器"""
+        if self.pause_timer_id:
+            self.root.after_cancel(self.pause_timer_id)
+            self.pause_timer_id = None
+        if self.pause_count_id:
+            self.root.after_cancel(self.pause_count_id)
+            self.pause_count_id = None
+        self.pause_elapsed_sec = 0
+
+    def on_pause_timeout(self):
+        """當暫停時間達到 5 分鐘時呼叫"""
+        self.cancel_pause_timer()
+        
+        # 若當前在迷你懸浮模式，自動開啟主視窗方便使用者操作彈窗
+        if self.mini_window:
+            self.restore_window()
+        else:
+            self.root.deiconify()
+            self.root.lift()
+            self.root.attributes('-topmost', True)
+
+        # 詢問使用者是否重置時間
+        confirm = messagebox.askyesno(
+            "☕ 暫停提醒", 
+            "您已暫停 (休息) 超過 5 分鐘囉！\n\n請問是否要將計時器重置？", 
+            parent=self.root
+        )
+        
+        if confirm:
+            self.reset_timer()
+        else:
+            # 使用者選擇不重置，重新開始下一個 5 分鐘的暫停倒數
+            self.start_pause_timer()
 
     # ---  數字放大與迷你視窗脈衝動畫 ---
     def trigger_zoom_animation(self):
@@ -439,13 +502,13 @@ class BorderlessTimer:
                 self.root.after_cancel(self.timer_id)
             self.is_running = False
             self.btn_start.config(text="▶ 繼續")
-            self.label_status.config(text="⏸️ 已暫停 (電腦鎖定)")
             self.reset_timer_font()
-            self.update_mini_display()
+            self.start_pause_timer()
 
     def on_system_resume(self):
         if self.auto_paused_by_system:
             self.auto_paused_by_system = False
+            self.cancel_pause_timer()
 
             if self.mini_window:
                 self.restore_window()
@@ -601,13 +664,25 @@ class BorderlessTimer:
             self.mini_window.geometry(f"65x28+{cur_x}+{cur_y}")
             self.btn_restore.config(text=time_str, font=("Consolas", self.MINI_BASE_FONT_SIZE, "bold"))
         else:
-            cur_x = self.mini_window.winfo_x()
-            cur_y = self.mini_window.winfo_y()
-            if cur_x <= 0 and cur_y <= 0:
-                cur_x = screen_width - 50
-                cur_y = screen_height - 100
-            self.mini_window.geometry(f"30x30+{cur_x}+{cur_y}")
-            self.btn_restore.config(text="⏰", font=("Arial", 12))
+            if self.pause_timer_id:
+                # 🆕 暫停時顯示暫停秒數
+                p_mins, p_secs = divmod(self.pause_elapsed_sec, 60)
+                pause_str = f"⏸️ {p_mins:02d}:{p_secs:02d}"
+                cur_x = self.mini_window.winfo_x()
+                cur_y = self.mini_window.winfo_y()
+                if cur_x <= 0 and cur_y <= 0:
+                    cur_x = screen_width - 85
+                    cur_y = screen_height - 100
+                self.mini_window.geometry(f"75x28+{cur_x}+{cur_y}")
+                self.btn_restore.config(text=pause_str, font=("Consolas", self.MINI_BASE_FONT_SIZE, "bold"))
+            else:
+                cur_x = self.mini_window.winfo_x()
+                cur_y = self.mini_window.winfo_y()
+                if cur_x <= 0 and cur_y <= 0:
+                    cur_x = screen_width - 50
+                    cur_y = screen_height - 100
+                self.mini_window.geometry(f"30x30+{cur_x}+{cur_y}")
+                self.btn_restore.config(text="⏰", font=("Arial", 12))
 
     # --- 隱藏與還原邏輯 ---
     def hide_window(self):
@@ -700,8 +775,11 @@ class BorderlessTimer:
             self.is_running = False
             self.btn_start.config(text="▶ 繼續")
             self.reset_timer_font()
-            self.update_mini_display()
+            # 按下暫停時，啟動暫停倒數與累計秒數
+            self.start_pause_timer()
         else:
+            # 按下繼續/開始時，取消暫停倒數計時
+            self.cancel_pause_timer()
             self.is_running = True
             self.btn_start.config(text="⏸️ 暫停")
             status_text = "👨‍💻 專注工作中" if self.is_working else "☕ 休息時間"
@@ -712,6 +790,7 @@ class BorderlessTimer:
     def reset_timer(self):
         self.stop_flashing()
         self.reset_timer_font()
+        self.cancel_pause_timer()
         self.auto_paused_by_system = False
         if self.timer_id:
             self.root.after_cancel(self.timer_id)
