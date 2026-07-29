@@ -97,3 +97,8 @@ shell:startup
 4. Copy **timer.exe** into the Startup folder.
 
 The application will automatically launch each time you sign in to Windows.
+
+---
+
+## Demo
+https://youtu.be/Oxd0DReYIDY?si=xnzOT2eIFV8Yy7LG
